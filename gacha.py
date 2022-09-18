@@ -14,7 +14,7 @@ Check the documentation.pdf in the same directory to learn how the software work
 documented well enough to let people with basic programming knowledge to understand how everything
 works, but if you have any questions please DM me on Twitter @ MatsuTheBear
 
-Keep in mind that everything you need to modify is in the COSTANTS section, everything else is automated
+Keep in mind that everything you need to modify is in the CONSTANTS section, everything else is automated
 '''
 
 #---Imports
@@ -22,7 +22,7 @@ import random #allows the generation of random numbers
 import os #it's needed to interact with the OS libraries
 import sys #allows the program to get the argument from CMD
 
-#--- Costants 
+#--- Constants 
 
 # Percentage of X rank characters (example: rank R characters have a 70 percent chance of being pulled)
 RARITY_R = 70 
