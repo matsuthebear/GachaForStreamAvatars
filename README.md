@@ -44,7 +44,7 @@ __run__ : bat file that is used to pass the Twitch username as argument for the 
 __text_message__ : txt file containing the message that will be displayed in Twitch chat
 
 # VALUES YOU HAVE TO MODIFY
-__These are all the values you need to modify in order to personalize your channel. You don't have to edit anything else (unless you want to modify particular things, like the name of the files__
+__These are all the values you need to modify in order to personalize your channel. You don't have to edit anything else (unless you want to modify particular things, like the name of the files__)
 
 __RARITY_R, RARITY_S, RARITY_SSS__ :  % of getting a X rank character (default 70, 25, 5, corresponding to 70%, 25% and 5%)
 
