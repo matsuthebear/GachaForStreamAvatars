@@ -3,7 +3,7 @@
 
 Welcome in everyone! This code will allow you to have a gacha system for your streams. Everything is automated, you just need to modify some values and you are ready to go! Everything you need to know is listed here, but for any questions you can DM me on Twitter @ [MatsuTheBear](https://www.twitter.com/matsuthebear)
 
-# The setup documentation can be found [here](https://docs.google.com/document/d/1s2L_c_BogA7PO-dNZSuwOFGtCvfCFEBSfk6tUzW9PeA/edit?usp=sharing) (available also in the same directory on documentation.pdf)
+# The setup documentation can be found [here](https://docs.google.com/document/d/1s2L_c_BogA7PO-dNZSuwOFGtCvfCFEBSfk6tUzW9PeA/edit?usp=sharing) (available also in the same directory on Setup.pdf)
 # Requirements 
 * A macro control program that __can launch .bat files, get data from channel points and set Twitch usernames as arguments for said .bat file__ (Touch Portal was used)
 * Python 3.10+
