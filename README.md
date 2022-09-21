@@ -71,6 +71,7 @@ __Can I use your bear avatars?__
 No
 
 __StreamAvatars has a Loot feature, and there is a Gacha tutorial for that, why you wrote this code?__ 
+
 Is it true that StreamAvatars has a loot feature, that you can check [here](https://docs.streamavatars.com/stream-avatars/content-creating/creating-lootboxes), but there are some reason why I opted for custom code: 
 * It works only with gears/accessories 
 * It's a feature made mostly for Bosses/Battle Royales
