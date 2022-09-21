@@ -73,8 +73,9 @@ No
 __StreamAvatars has a Loot feature, and there is a Gacha tutorial for that, why you wrote this code?__ 
 
 Is it true that StreamAvatars has a loot feature, that you can check [here](https://docs.streamavatars.com/stream-avatars/content-creating/creating-lootboxes), but there are some reason why I opted for custom code: 
-* It works only with gears/accessories 
-* It's a feature made mostly for Bosses/Battle Royales
+* StreamAvatars' lootbox feature works only with gears/accessories 
+* Lootbox's feature works best for Bosses/Battle Royales
+* You still have to write down the code if you want to gift avatars/gear, so why not use a macro software for that?
 * StreamAvatars can't check if someone has ALREADY an avatar or a weapon/gear (This was my main reason to create the code)
 * My code allows people to swap the rarity of avatars easily, just cut and paste the row in a different file and you are ready!
 
