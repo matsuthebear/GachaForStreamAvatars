@@ -75,8 +75,12 @@ __Can i contact you if I have any problems or questions to ask?__
 __Yes!__ Please do so on my DMs at my [Twitter page](https://www.twitter.com/matsuthebear)
 
 # Planned Updates 
-
+## Version 1.1 (mid October)
+* Gears feature included
+* Remake of the Setup page, including the setup for BikuBot, LioranBoard and more 
 * Compatibility with Linux / Mac OS Operating Systems 
+
+## Version 1.2 (November)
 * Have the entire code as a Class
-* Functions that will automatically create all the folders and files needed 
-* Include gears feature 
+* Creation of all missing files + folder automated 
+* Clean up of the code
