@@ -74,3 +74,9 @@ __Can i contact you if I have any problems or questions to ask?__
 
 __Yes!__ Please do so on my DMs at my [Twitter page](https://www.twitter.com/matsuthebear)
 
+# Planned Updates 
+
+* Compatibility with Linux / Mac OS Operating Systems 
+* Have the entire code as a Class
+* Functions that will automatically create all the folders and files needed 
+* Include gears feature 
