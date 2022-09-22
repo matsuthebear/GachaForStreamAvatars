@@ -83,6 +83,13 @@ __Can i contact you if I have any problems or questions to ask?__
 
 __Yes!__ Please do so on my DMs at my [Twitter page](https://www.twitter.com/matsuthebear)
 
+# Known Bugs
+* The python file has the version equal to 1.1, it should be 1.0. I'm not going to change it lol
+* If two users redeem the same reward at the same time, there is a slight chance that one user will receive both avatars and the other one none. 
+* Sometimes the !command is not sent on Twitch chat. This could be due to I/O speeds or internet connection speeds 
+* Sometimes the displayed user is incorrect, but the avatar is gifted correctly
+* Rarely the !gift command gifts the previous user and not who redeemed the reward. I/O problems
+
 # Planned Updates 
 ## Version 1.1 (mid October)
 * Gears feature included
