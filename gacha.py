@@ -145,17 +145,6 @@ def getReward(username,rank,type):
             result = "Coins"
     return result
 
-def resetFiles():
-    """
-    Input: None
-    Output: int
-    resetFiles: resets result and message files to avoid I/O problems. 
-    """
-    #To be sure there are no old data read, file are resetted every time
-    with open(os.path.join(DIRECTORY_, "txt-files/result.txt"),"w") as file: pass 
-    with open(os.path.join(DIRECTORY_, "txt-files/message.txt"),"w") as file: pass 
-    return 0
-
 #--- MAIN ---#
 if __name__ == "__main__":
     #This is mostly used for rare cases. If you launch the program, no error will be visible, but helps also with setup if something is missing
@@ -165,7 +154,8 @@ if __name__ == "__main__":
             fileReward.write("Error: not enough arguments") 
     else:
         #Reset of files
-        resetFiles()
+        with open(os.path.join(DIRECTORY_, "txt-files/result.txt"),"w") as file: pass 
+        with open(os.path.join(DIRECTORY_, "txt-files/message.txt"),"w") as file: pass 
         #Data from cmd argv
         """
         argv is the list of arguments given from CMD or Terminal
