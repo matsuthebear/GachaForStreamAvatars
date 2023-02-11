@@ -1,208 +1,286 @@
-#--- INFO ---#
-"""""""""
-Credits : @MatsuTheBear
-Program Version : 1.1
-Python Version : 3.10.7
-TOS: 
-    * YOU CAN use this program FREE TO USE
-    * You CAN edit the code and improve it, or modify it for your necessities
-    * You HAVE to credit me for the original code if you re-publish the modified version
-    * Using this program, you accept that the author is not responsible for anything that could 
-      happen. 
+#-- Info --#
 
-Check the documentation.pdf in the same directory to learn how the software works. The code IS 
-documented well enough to let people with basic programming knowledge to understand how everything
-works, but if you have any questions please DM me on Twitter @ MatsuTheBear
-
-Keep in mind that everything you need to modify is in the COSTANTS section, everything else is automated
-
-CHANGELOGS:
-
-* Version 1.1 
--Fixed I/O problems
--Creation of Folders - Files automated
--More functions, less code on main 
--Function for setup, if needed
--Function for giving all avatars automatically, if everything falls apart
--Implementation of Gears - to be tested
-
-* Version 1.0 
 """
-#---IMPORTS ---#
-import random #allows the generation of random numbers
-import os #it"s needed to interact with the OS libraries
-import sys #allows the program to get the argument from CMD
+Credits: MatsuTheBear 
+Program Version: 1.1b
+Python Version: 3.10.7
+
+TOS 
+
+- The software is provided as is. I don't take responsability in any damage caused by any wrong usage of the software
+- You can use the software free to use, both for personal and professional use (this includes Twitch, Youtube, Facebook, etc...)
+- You can edit the code as you like. If you upload modified code, you have to link the github of the original code 
+- You are not allowed to sell the code, even if you modify it
+
+Changelogs can be viewed in the Github page
 
 
-#--COSTANTS ---#
+Info for users
 
-########################################    MODIFY HERE   #########################################################
-# Percentage of X rank characters (example: rank R characters have a 70 percent chance of being pulled)
-RARITY_R = 70 
-RARITY_S = 25 
-RARITY_SSS = 5 
+- Variables you have to modify are inside the "CONSTANTS" section below. Everything else is automated. 
+- If you don't care about the Log strings during running time (useful for checking errors), set it to False
+"""
 
-#Number of coins/points the user will receive if the pull is unsuccessful
-COIN_R = 500 
-COIN_S = 2500
-COIN_SSS = 10000
+#--Imports 
+import random
+import os 
+import sys 
 
-REROLLS = 5
-###################################################################################################################
-#Directory
-DIRECTORY_ = sys.path[0]
-#--Functions 
+#-- Constants --#
 
-def gachasetup():
-    """""""""
-    Input: None 
-    Output: int 
+#Characters pull rate -> 70 = 70% -> sum must be 100 
+Char_Rarity_R = 70
+Char_Rarity_S = 25 
+#Char_Rarity_SSS = 5 -> not used 
 
-    GachaSetup: function that creates all files and folders if is called. The directory should be 
-    as shown in the document. Best to use if everything falls apart or you are not sure there 
-    are files missing
-    """
-    #Creation of tiers/users folders
-    """""""""
-    This part is kinda simple to understand: it reads all the folders and txt files that the directory
-    should have from a "setup" file. If the line read does not contain "txt" in it, is a folder, 
-    else is a file. This function only creates empty files.
-    """
-    setup = os.path.join(DIRECTORY_, "txt-files/setup.txt")
-    with open(setup) as input_file:
-        strings = input_file.readlines()
-        strings = [string.rstrip() for string in strings]
-    # Reads N strings for the setup txt file, and based on the presence of "txt" or not, it creates folders or txt files. 
-    for i in range(len(strings)-1):
-        if (strings[i] != ""):
-            output_result = os.path.join(DIRECTORY_, strings[i])
-        if os.path.exists(output_result) == False:
-            if "txt" in strings[i]:
-                with open(os.path.join(DIRECTORY_,output_result),"w"): pass 
-            else:
-                os.mkdir(os.path.join(DIRECTORY_,output_result))
+Gear_Rarity_R = 70
+Gear_Rarity_S = 25 
+#Gear_Rarity_SSS = 5  -> not used 
+
+Coins_R = 500
+Coins_S = 2500
+Coins_SSS = 10000
+
+Rerolls = 5 
+
+Dir_ = sys.path[0] #You can put another dir if you like
+
+Log_Check = True #Put this at true if you want to test the program without using a macro software
+
+#-- Functions --#
+def setFilesToEmpty(): 
+
+    if Log_Check:
+        print("OK | setFilesToEmpty(): function called  ")
+
+    with open(os.path.join(Dir_,"files/message.txt"), "w"): pass 
+    with open(os.path.join(Dir_,"files/reward.txt"), "w"): pass 
+
+    if Log_Check:
+            print("OK | setFilesToEmpty(): function closed ")
+
     return 0
 
-def getTier(chance_R,chance_S,chance_SSS):
-    """
-    Input: int,int,int - Each corresponding to the % of getting a particular rank
-    Output: string 
-    getTier: The function will return a random rank based on the chances chosen
-    """
-    chance_total = chance_R + chance_S + chance_SSS
-    result = random.randint(1, chance_total)
-    threshold = chance_R
-    if result <= threshold:
-        return "r"    
-    threshold = threshold + chance_S
-    if result <= threshold:
-        return "s"
-    return "sss"
-
-def getReward(username,rank,type):
-    """
-    Input: string, string, int
-    Output: string
-    getReward: function that given the username and the directory (directory of avatar/gear + rank), returns the reward (avatar or gear). Returns empty string 
-    if an error occurred
-    """
-    check = True
-    directory = ""
-    result = ""
-    rank += ".txt"
-    #Check the type given by as argument
-    if type == "avatar":
-        directory = os.path.join(DIRECTORY_, ("avatar-tiers/" + rank))
-    elif type == "gear":
-        directory = os.path.join(DIRECTORY_, ("gear-tiers/" + rank))
-    else:
-        #The type given is incorrect, thus giving later an error message
-        return result
-    #Reads all the characters in the file of the rank gotten, given as input
-    with open(directory) as file:
-        characters = file.readlines()
-        characters = [character.rstrip() for character in characters] #Allows me to remove spaces and \n 
-    user_file = os.path.join(DIRECTORY_ , ("users/" + typeReward + "/"+ username + ".txt"))
-
-    #If the user exists, it will pass, else it will create a new file
-    if os.path.exists(user_file) == False:
-        with open(user_file, "w"): pass
-    #Checks if the user has already the character
-    with open(user_file,"r") as file:
-        user_characters = file.readlines()
-        user_characters = [user_character.rstrip() for user_character in user_characters]
-        #If the length of the list of avatar characters(available to pull, not the user ones) is 0, that means the file is empty
-        if len(characters) > 0:
-            for i in range (REROLLS):
-                #Having our array ready, we can have a new random number that will help us do the job
-                position = random.randint(0,len(characters)-1)
-                result = characters[position]
-                #5 Checks if the character we pulled is already in the user list
-                if result not in user_characters:
-                    check = False #this means i HAVE found a new character that the user does not have. 
-                    break #allows me to exit the cycle
-        if check:
-            result = "Coins"
-    return result
-
-#--- MAIN ---#
-if __name__ == "__main__":
-    #This is mostly used for rare cases. If you launch the program, no error will be visible, but helps also with setup if something is missing
-    if (len(sys.argv) <= 2):
-        gachasetup()
-        with open(os.path.join(DIRECTORY_, "txt-files/result.txt"),"w") as fileReward:
-            fileReward.write("Error: not enough arguments") 
-    else:
-        #Reset of files
-        with open(os.path.join(DIRECTORY_, "txt-files/result.txt"),"w") as file: pass 
-        with open(os.path.join(DIRECTORY_, "txt-files/message.txt"),"w") as file: pass 
-        #Data from cmd argv
-        """
-        argv is the list of arguments given from CMD or Terminal
-        argv[0] = gacha.py
-        argv[1] = username
-        argv[2] = Type of reward, "avatar" or "gear"
-        """
-        username = sys.argv[1] 
-        typeReward = sys.argv[2]
-        #Gets rank + result
-        rank = getTier(RARITY_R,RARITY_S,RARITY_SSS)
-        reward = getReward(username,rank,typeReward)
-        with open(os.path.join(DIRECTORY_, "txt-files/result.txt"),"w") as fileReward:
-            if reward != "":
-                if reward != "Coins":
-                    """
-                    If the reward is not "Coins", that means the function getReward found an avatar/gear to give to the user
-                    """
-                    if (typeReward == "avatar"):
-                        fileReward.write("!gift " + username + " avatar " + reward)
-                    elif (typeReward == "gear"):
-                        fileReward.write("!gift " + username + " gear " + reward)
-                    """
-                    Writes the result on the user file too, so next time it does not give back again the same result accidentally
-                    """
-                    user_file = os.path.join(DIRECTORY_ , ("users/" + typeReward + "/"+ username + ".txt"))
-                    with open(user_file,"a") as file_user:
-                        file_user.write(reward + "\n")
-
-                    with open(os.path.join(DIRECTORY_, "txt-files/message.txt"),"w") as fileMessage:
-                        fileMessage.write("Congratulations " + username + "! You got a " + rank + " rank " + typeReward +"!")
+def setGacha():
+    if Log_Check:
+            print("OK | setGacha(): function started ")
+    try:
+        setup = os.path.join(Dir_, "files/setup.txt")
+        with open(setup) as input_file:
+            setupStrings = input_file.readlines()
+            setupStrings = [setupString.rstrip() for setupString in setupStrings]
+        # Reads N strings for the setup txt file, and based on the presence of "txt" or not, it creates folders or txt files. 
+        for i in range(len(setupStrings)-1):
+            if (setupStrings[i] != ""):
+                output_result = os.path.join(Dir_, setupStrings[i])
+            if os.path.exists(output_result) == False:
+                if "txt" in setupStrings[i]:
+                    with open(os.path.join(Dir_,output_result),"w"): pass 
                 else:
-                    coins = 0
-                    """
-                    Match - Catch do NOT work with TouchPortal on macOS for some reason??? I gave up at this point 
+                    os.mkdir(os.path.join(Dir_,output_result))
+    except Exception as e:
+        if Log_Check:
+            print("ERROR | setGacha(): " + str(e))
+            return 1
+    if Log_Check:
+            print("OK | setGacha(): function closed  ")
+    return 0
 
-                    Also! Based on the rank, it will get back 
-                    """
-                    if (rank == "r"):
-                        coins = COIN_R
-                    elif (rank == "s"):
-                        coins = COIN_S
-                    else:
-                        coins = COIN_SSS
-                    
-                    fileReward.write("!currency add " + username + " " + str(coins))
-                    with open(os.path.join(DIRECTORY_, "txt-files/message.txt"),"w") as fileMessage:
-                        fileMessage.write("Oh no " + username + "! You did not get a" + typeReward + ", but you got instead " + coins + "coins!")
+def setRecovery(username, typeReward):
+    if Log_Check:
+            print("OK | setRecovery(): function called ")
+    userDir = os.path.join(Dir_, ("users/" + typeReward + "/" + username + ".txt"))
+    if not os.path.exists(userDir):
+        if Log_Check:
+            print("ERROR | setRecovery(): user does not exist")
+        return None 
+    try:
+        with open(userDir, "r") as userFile:
+            userRewards = userFile.readlines()
+            userRewards = [userReward.rstrip() for userReward in userRewards] #Cleanup of strings 
+
+        recoveryDir = os.path.join(Dir_, ("files/recovery.txt"))
+        with open(recoveryDir, "a") as recoveryFile:
+            for i in range(len(userRewards) - 1):
+                recoveryFile.write("!gift " + username + " " + typeReward + " " + userRewards[i])
+    except Exception as e:
+        print("ERROR | setRecovery(): " + str(e)) #Try-catch 
+        return 1
+
+    if Log_Check:
+        print("OK | setRecovery(): function closed ")
+    return 0
+
+def setReward(username, typeReward, reward, rarity):
+
+    if Log_Check:
+        print("OK | setReward(): function called  ")  
+
+    try:
+        with open(os.path.join(Dir_, "files/reward.txt"),"w") as fileReward:
+            fileReward.write("!gift " + username + " " + typeReward + " " + reward)
+
+        user_file = os.path.join(Dir_ , ("users/" + typeReward + "/"+ username + ".txt"))
+        if (os.path.exists(user_file)):
+            with open(user_file,"a") as file_user:
+                file_user.write(reward + "\n")
+        else:
+            with open(user_file,"w") as file_user:
+                file_user.write(reward + "\n")
+
+        with open(os.path.join(Dir_, "files/message.txt"),"w") as fileMessage:
+            fileMessage.write("Congratulations " + username + "! You got a " + rarity + " rarity " + typeReward +"!")
+
+        if Log_Check:
+            print("OK | setReward(): reward setted correctly, function closed  ")
+    except Exception as e:
+        if Log_Check:
+            print("ERROR | setReward(): " + str(e))
+    return 0
+
+def setCoins(username, rarity):
+
+    if Log_Check:
+        print("OK | setCoins(): function called  ")
+
+    coins = 0 
+    match(rarity):
+        case ('r'):
+            coins = Coins_R
+        case('s'):
+            coins = Coins_S
+        case('sss'):
+            coins = Coins_SSS
+
+    with open(os.path.join(Dir_, "files/reward.txt"),"w") as fileReward:
+        fileReward.write("!currency add " + username + " " + str(coins))
+    with open(os.path.join(Dir_, "files/message.txt"),"w") as fileMessage:
+        fileMessage.write("Oh no " + username + "! You did not get a " + typeReward + ", but you got instead " + str(coins) + " coins!")
+
+    if Log_Check:
+        print("OK | setCoins(): function ended  ")
+
+    return 0
+
+
+
+def getRarity(chanceR, chanceS):
+
+    if Log_Check:
+        print("OK | getRarity(): function called  ")
+
+    """
+    I'm assuming the sum of all the chances is 100. If not, the program will of course have problems. 
+    There are different thresholds, and if-immediate is the fastest option for this case 
+    """
+    chanceNum = random.randint(1,100) 
+    if Log_Check:
+        print("OK | getRarity() returned value: " + str(chanceNum) + ", function closed ") 
+    if chanceNum <= chanceR:
+        return 'r'
+    elif chanceNum <= chanceR + chanceS:
+        return 's'
+    else:
+        return 'sss'
+
+def getReward(username, rarity, typeReward):
+
+    if Log_Check:
+        print("OK | getReward(): function called  ")
+
+    typeDir = ""
+    match(typeReward):
+        case ("avatar"):
+            typeDir = os.path.join(Dir_, ("avatars/" + rarity + ".txt"))
+        case ("gear"):
+            typeDir = os.path.join(Dir_, ("gears/" + rarity + ".txt"))
+        case _:
+            if Log_Check:
+                print("ERROR | getReward(): TypeReward is not avatar or gear, returning None... ")
+            return None #In case of errors, the function returns null
+    try:
+        with open(typeDir, "r") as rewardsFile:
+            rewards = rewardsFile.readlines()
+            rewards = [reward.rstrip() for reward in rewards] #Cleanup of strings 
+    except Exception as e:
+        if Log_Check:
+            print("ERROR | getReward(): " + str(e)) #Try-catch 
+
+
+    userDir = os.path.join(Dir_, ("users/" + typeReward + "/" + username + ".txt"))
+    if not os.path.exists(userDir):
+        with open(userDir, "w"): pass
+
+    with open(userDir, "r") as userFile:
+        userRewards = userFile.readlines()
+        userRewards = [userReward.rstrip() for userReward in userRewards] #Cleanup of strings 
+
+        if Log_Check:
+            print("OK | getReward(): strings obtained: typeReward " + typeReward + " and user " + username +" ")
+
+        try:
+            for i in range(0,Rerolls):
+                #Gets random reward from pull
+                resultReward = random.choice(rewards)
+                #Checks if the user has already it 
+                if resultReward not in userRewards:
+                    if Log_Check:
+                        print("OK | getReward(): Found a reward, function closed  ") #Try-catch 
+                    return resultReward #Return automatically exits from the function
+            if Log_Check:
+                print("OK | getReward(): no rewards found, giving coins instead, function closed  ") #Try-catch 
+            return "Coins"
+        except Exception as e:
+            if Log_Check:
+                print("ERROR | getReward(): " + str(e)) #Try-catch 
+            return None #Error if the file is empty
+
+
+#-- Main --#
+if __name__ == "__main__":
+    if len(sys.argv) >= 3 :
+        username = sys.argv[1]
+        typeReward = sys.argv[2]
+
+        if Log_Check:
+            print("OK | Main: got arguments: " + username + " " + typeReward) 
+        if typeReward == "recovery":
+            setRecovery(username, "avatar")
+            setRecovery(username, "gear")
+        else:    
+            rarity = ""
+            match(typeReward):
+                case ("avatar"):
+                    rarity = getRarity(Char_Rarity_R,Char_Rarity_S)
+                case ("gear"):
+                    rarity = getRarity(Gear_Rarity_R,Gear_Rarity_S)
+            reward = getReward(username, rarity, typeReward)
+            setFilesToEmpty()
+
+            if reward is not None:
+                if reward != "Coins":
+                    if Log_Check:
+                        print("OK | Main: got reward " + reward + ", starting setReward...")
+                    setReward(username, typeReward, reward, rarity)
+                else:
+                    if Log_Check:
+                        print("OK | Main: got coins, starting SetCoins...")
+                    setCoins(username, rarity)
             else:
-                fileReward.write("Error: no avatar/gear was available to be pulled for the rank selected: " + rank)
+                if Log_Check:
+                    print("ERROR | Main: reward is None, expected Coins or Reward. Check getReward()  ")
+    else:
+        if Log_Check:
+            print("WARNING | Main: no arguments given. Starting setGacha()")
+        setGacha()
+            
+
+
+
+
+
+
+
+
+        
+
